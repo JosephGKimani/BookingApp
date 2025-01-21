@@ -13,7 +13,7 @@ namespace BookingApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<RoomBookingContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
