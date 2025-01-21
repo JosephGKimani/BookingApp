@@ -1,17 +1,27 @@
 ﻿
 
 @model BookingApp.Models.Room
-<form asp-action="Add">
-    <label>Id</label>
-    <input type="number" asp-for=" Id"/>
-    <label>Room Type</label>
-
-    <input type="text" asp-for="RoomType"/>
-    <label>Check in</label>
-    <input type="date" asp-for="checkin"/>
-    <label>Check Out</label>
-    <input type="date" asp-for="checkout" />
 
 
-    <button class="btn btn-primary" type="submit">Submit</button>
+<form asp-action="Add" class="form">
+    <div class="mb-3">
+        <input type="hidden" asp-for="Id" />
+    </div>
+
+    <div class="mb-3">
+        <label for="RoomType" class="form-label">Room Type</label>
+        <input type="text" class="form-control" asp-for="RoomType" />
+    </div>
+
+    <div class="mb-3">
+        <label for="checkin" class="form-label">Check in</label>
+        <input type="date" class="form-control" asp-for="checkin" />
+    </div>
+
+    <div class="mb-3">
+        <label for="checkout" class="form-label">Check Out</label>
+        <input type="date" class="form-control" asp-for="checkout" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>

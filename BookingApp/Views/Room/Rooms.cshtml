@@ -1,26 +1,27 @@
 ﻿@model List<Room>;
 
 
-	<table>
-
-		<thead>
-
-			<td>id  </td><td>RoomType</td><td>Checkin</td><td>checkout</td>
-		</thead>
-		<tbody>
-
-			@foreach(var room in Model){
-				
-				
-				<tr>
-					<td>@room.Id</td><td>@room.RoomType</td><td>@room.checkin</td><td>@room.checkout</td>
-				</tr>
-
-
-			
-
-		}
-
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Room Type</th>
+            <th scope="col">Check-in</th>
+            <th scope="col">Check-out</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var room in Model)
+        {
+            <tr>
+                <td>@room.Id</td>
+                <td>@room.RoomType</td>
+                <td>@room.checkin</td>
+                <td>@room.checkout</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 
 
