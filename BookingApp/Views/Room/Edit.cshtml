@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model BookingApp.Models.Room
+
+
+<form asp-action="EditBooking" asp-controller="Room" asp-action="EditBooking">
+    <!-- Room Type -->
+    <div class="mb-3">
+        <label for="roomType" class="form-label">Room Type</label>
+        <input type="text" class="form-control" id="roomType" name="roomType" required asp-for="RoomType">
+    </div>
+
+    <!-- Check-in Date -->
+    <div class="mb-3">
+        <label for="checkinDate" class="form-label">Check-in Date</label>
+        <input type="date" class="form-control" id="checkinDate" name="checkinDate" required asp-for="checkin">
+    </div>
+
+    <!-- Check-out Date -->
+    <div class="mb-3">
+        <label for="checkoutDate" class="form-label">Check-out Date</label>
+        <input type="date" class="form-control" id="checkoutDate" name="checkoutDate" required asp-for="checkout">
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Edit</button>
+</form>
+

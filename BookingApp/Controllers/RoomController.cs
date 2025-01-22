@@ -11,12 +11,13 @@ namespace BookingApp.Controllers
         {
             _roomBookingContext = roomBookingContext;
         }
+        [HttpGet]
         public IActionResult Index()
         {
 
             return View();
         }
-
+        [HttpGet]
         public IActionResult Rooms()
         {
 
@@ -25,7 +26,7 @@ namespace BookingApp.Controllers
 
             return View(Rooms);
         }
-
+        [HttpPost]
         public IActionResult Add(Room room)
         {
 
@@ -33,6 +34,35 @@ namespace BookingApp.Controllers
             _roomBookingContext.Rooms.Add(room);
             _roomBookingContext.SaveChanges();
             TempData["Notification"] = "Booked successfully";
+            return RedirectToAction("Rooms");
+        }
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+
+            var room= _roomBookingContext.Rooms.FirstOrDefault(r => r.Id == id);
+            // Pass the id to the EditBooking action
+            return View(room);
+        }
+
+   [HttpPost]
+        public IActionResult EditBooking(Room room) {
+            if (room == null) { return NotFound(); }
+            var RoomToEdit = new Room();
+
+           RoomToEdit.RoomType = room.RoomType;
+            RoomToEdit.checkin = room.checkin;
+            RoomToEdit.checkout= room.checkout;
+
+
+            _roomBookingContext.Rooms.Update(room);
+            _roomBookingContext.SaveChanges();
+
+
+
+
+
+
             return RedirectToAction("Rooms");
         }
 

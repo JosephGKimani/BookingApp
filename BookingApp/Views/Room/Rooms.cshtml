@@ -21,6 +21,7 @@
             <th scope="col">Room Type</th>
             <th scope="col">Check-in</th>
             <th scope="col">Check-out</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -31,6 +32,12 @@
                 <td>@room.RoomType</td>
                 <td>@room.checkin</td>
                 <td>@room.checkout</td>
+                <td>
+                <td>
+                    <a  asp-controller="Room" asp-action="Edit" asp-route-id="@room.Id">Edit</a>
+
+                </td>
+
             </tr>
         }
     </tbody>
