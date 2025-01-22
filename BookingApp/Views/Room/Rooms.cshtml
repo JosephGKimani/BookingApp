@@ -34,7 +34,9 @@
                 <td>@room.checkout</td>
                 <td>
                 <td>
-                    <a  asp-controller="Room" asp-action="Edit" asp-route-id="@room.Id">Edit</a>
+                    <a asp-controller="Room" asp-action="Edit" asp-route-id="@room.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Room" asp-action="Delete" asp-route-id="@room.Id" class="btn btn-danger">Delete</a>
+
 
                 </td>
 

@@ -65,7 +65,34 @@ namespace BookingApp.Controllers
 
             return RedirectToAction("Rooms");
         }
+        [HttpGet]
+        public IActionResult Delete(Guid id) {
 
+            var Room = _roomBookingContext.Rooms.FirstOrDefault(x => x.Id == id);
+
+            if(Room == null) { return NotFound(); }
+
+         
+
+            return View(Room);
+        
+        }
+
+        [HttpPost]
+        public IActionResult DeleteRoom(Guid id)
+        {
+            var room = _roomBookingContext.Rooms.FirstOrDefault(r => r.Id == id);
+
+            if (room == null)
+            {
+                return NotFound(); // Return 404 if the room is not found
+            }
+
+            _roomBookingContext.Rooms.Remove(room);
+            _roomBookingContext.SaveChanges();
+
+            return RedirectToAction("Rooms"); // Redirect to the Rooms action after deletion
+        }
 
     }
 }
