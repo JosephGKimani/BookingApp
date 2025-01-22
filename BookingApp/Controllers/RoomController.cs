@@ -32,6 +32,7 @@ namespace BookingApp.Controllers
 
             _roomBookingContext.Rooms.Add(room);
             _roomBookingContext.SaveChanges();
+            TempData["Notification"] = "Booked successfully";
             return RedirectToAction("Rooms");
         }
 
