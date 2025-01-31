@@ -1,0 +1,29 @@
+﻿
+
+
+<script src="/lib/jquery//dist/jquery.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+@if (TempData["Message"] != null)
+{
+
+    <script type="text/javascript ">
+
+        toastr.success('@TempData["Message"]');
+    </script>
+}
+
+
+<form method="post" enctype="multipart/form-data" asp-action="UploadFiles" class="p-3 border rounded shadow-sm">
+    <div class="mb-3">
+        <label for="file" class="form-label">Upload File</label>
+        <input type="file" class="form-control" id="file" name="file" />
+    </div>
+    <div class="d-flex justify-content-end">
+        <input type="submit" class="btn btn-primary" value="Submit" />
+    </div>
+</form>
+@if (TempData["Message"] != null)
+{
+    
+    <span class="mt-2 text-success"> @TempData["Message"] Congrats</span>
+}

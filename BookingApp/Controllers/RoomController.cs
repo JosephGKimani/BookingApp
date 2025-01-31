@@ -1,15 +1,19 @@
 ﻿using BookingApp.BookingDbContext;
 using BookingApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Threading.Tasks;
 
 namespace BookingApp.Controllers
 {
     public class RoomController : Controller
     {
         private readonly RoomBookingContext _roomBookingContext;
-        public RoomController(RoomBookingContext roomBookingContext)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public RoomController(RoomBookingContext roomBookingContext, IWebHostEnvironment webHostEnvironment)
         {
             _roomBookingContext = roomBookingContext;
+            _webHostEnvironment = webHostEnvironment;
         }
         [HttpGet]
         public IActionResult Index()
@@ -92,6 +96,41 @@ namespace BookingApp.Controllers
             _roomBookingContext.SaveChanges();
 
             return RedirectToAction("Rooms"); // Redirect to the Rooms action after deletion
+        }
+        [HttpGet]
+        public IActionResult UploadFiles()
+        {
+
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadFiles(IFormFile file)
+        {
+
+
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+            if (!Directory.Exists(uploadsFolder))
+            {
+
+
+                Directory.CreateDirectory(uploadsFolder);
+
+            }
+
+            string fileName = Path.GetFileName(file.FileName);
+            string fileSavePath = Path.Combine(uploadsFolder, fileName);
+
+            using(FileStream stream=new FileStream(fileSavePath, FileMode.Create))
+            {
+
+
+
+                await file.CopyToAsync(stream);
+            }
+            TempData["Message"] = fileName + " saved successfully";
+            return View("UploadFiles");
         }
 
     }

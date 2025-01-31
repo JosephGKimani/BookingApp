@@ -32,6 +32,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Room" asp-action="Rooms">Rooms</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Room" asp-action="UploadFiles">Upload Files</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -48,11 +51,33 @@
             &copy; 2025 - BookingApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <div class="timer">00:00:00</div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
      <script src="https://account.snatchbot.me/script.js"></script>
-     <script>window.sntchChat.Init(404645)</script> 
+     <script>window.sntchChat.Init(404645)</script>
+    <script>
+        const timerElement = document.querySelector('.timer');
+
+        let seconds = 0;
+
+        function formatTime(sec) {
+          const hrs = String(Math.floor(sec / 3600)).padStart(2, '0');
+          const mins = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+          const secs = String(sec % 60).padStart(2, '0');
+          return `${hrs}:${mins}:${secs}`;
+        }
+
+        function startTimer() {
+          setInterval(() => {
+            seconds++;
+            timerElement.textContent = formatTime(seconds);
+          }, 1000);
+        }
+
+        startTimer();
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
