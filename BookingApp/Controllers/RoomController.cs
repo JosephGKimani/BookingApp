@@ -53,7 +53,8 @@ namespace BookingApp.Controllers
         public IActionResult EditBooking(Room room) {
             if (room == null) { return NotFound(); }
             var RoomToEdit = new Room();
-
+            RoomToEdit.FirstName = room.FirstName;
+            RoomToEdit.LastName = room.LastName;
            RoomToEdit.RoomType = room.RoomType;
             RoomToEdit.checkin = room.checkin;
             RoomToEdit.checkout= room.checkout;
