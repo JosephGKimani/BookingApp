@@ -72,20 +72,6 @@ namespace BookingApp.Areas.Identity.Pages.Account
         public class InputModel
         {
 
-
-
-            [Required]
-            [StringLength(100, ErrorMessage = "First Name cannot be longer than 100 characters.")]
-            public string FirstName { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "Last Name cannot be longer than 100 characters.")]
-            public string LastName { get; set; }
-
-            [Required]
-            [StringLength(200, ErrorMessage = "Address cannot be longer than 200 characters.")]
-            public string Address { get; set; }
-
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -113,6 +99,18 @@ namespace BookingApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "First Name cannot be longer than 100 characters.")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "Last Name cannot be longer than 100 characters.")]
+            public string LastName { get; set; }
+
+            [Required]
+            [StringLength(200, ErrorMessage = "Address cannot be longer than 200 characters.")]
+            public string Address { get; set; }
         }
 
 

@@ -3,6 +3,7 @@ using BookingApp.Models;
 using Microsoft.AspNetCore.Identity;
 
 using BookingApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingApp
 {
@@ -13,29 +14,28 @@ namespace BookingApp
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+           
             builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages();
 
-            // Register DbContext for RoomBookingContext
             builder.Services.AddDbContext<RoomBookingContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+       options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-            builder.Services.AddDefaultIdentity<BookingAppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<BookingAppContext>();
-
-            // Register DbContext for BookingAppLoginContext and Identity
             builder.Services.AddDbContext<BookingAppContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Login")));
 
-            // Configure Identity
-            builder.Services.AddIdentity<BookingAppUser, IdentityRole>(options =>
+            // Use AddDefaultIdentity (handles user accounts only)
+            builder.Services.AddDefaultIdentity<BookingAppUser>(options =>
             {
+                options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
             })
-            .AddEntityFrameworkStores<BookingAppContext>()
-            .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<BookingAppContext>();
+
 
             var app = builder.Build();
 
@@ -54,6 +54,8 @@ namespace BookingApp
             // Add Authentication and Authorization middleware
             app.UseAuthentication();
             app.UseAuthorization();
+            app.MapRazorPages();
+
 
             app.MapControllerRoute(
                 name: "default",

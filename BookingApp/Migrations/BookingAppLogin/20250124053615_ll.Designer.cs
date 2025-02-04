@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookingApp.Migrations.BookingAppLogin
 {
-    [DbContext(typeof(BookingAppLoginContext))]
+    [DbContext(typeof(BookingAppLoginContextModelSnapshot))]
     [Migration("20250124053615_ll")]
     partial class ll
     {

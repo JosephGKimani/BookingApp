@@ -1,5 +1,6 @@
 ﻿using BookingApp.BookingDbContext;
 using BookingApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace BookingApp.Controllers
             _roomBookingContext = roomBookingContext;
             _webHostEnvironment = webHostEnvironment;
         }
+
+        [Authorize]
         [HttpGet]
         public IActionResult Index()
         {

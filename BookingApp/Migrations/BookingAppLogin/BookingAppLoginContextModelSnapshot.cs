@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookingApp.Migrations.BookingAppLogin
 {
-    [DbContext(typeof(BookingAppLoginContext))]
+    [DbContext(typeof(BookingAppLoginContextModelSnapshot))]
     partial class BookingAppLoginContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
