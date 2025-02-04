@@ -1,7 +1,8 @@
 using BookingApp.BookingDbContext;
 using BookingApp.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+
+using BookingApp.Data;
 
 namespace BookingApp
 {
@@ -18,8 +19,10 @@ namespace BookingApp
             builder.Services.AddDbContext<RoomBookingContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
+            builder.Services.AddDefaultIdentity<BookingAppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<BookingAppContext>();
+
             // Register DbContext for BookingAppLoginContext and Identity
-            builder.Services.AddDbContext<BookingAppLoginContext>(options =>
+            builder.Services.AddDbContext<BookingAppContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Login")));
 
             // Configure Identity
@@ -31,7 +34,7 @@ namespace BookingApp
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
             })
-            .AddEntityFrameworkStores<BookingAppLoginContext>()
+            .AddEntityFrameworkStores<BookingAppContext>()
             .AddDefaultTokenProviders();
 
             var app = builder.Build();
