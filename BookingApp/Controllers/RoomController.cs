@@ -1,5 +1,7 @@
 ﻿using BookingApp.BookingDbContext;
 using BookingApp.Models;
+using BookingApp.Repository.Implimentation;
+using BookingApp.Repository.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -9,11 +11,12 @@ namespace BookingApp.Controllers
 {
     public class RoomController : Controller
     {
-        private readonly RoomBookingContext _roomBookingContext;
+        private readonly IRoomInterface _roomService;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public RoomController(RoomBookingContext roomBookingContext, IWebHostEnvironment webHostEnvironment)
+
+        public RoomController(IRoomInterface roomService, IWebHostEnvironment webHostEnvironment)
         {
-            _roomBookingContext = roomBookingContext;
+            _roomService = roomService;
             _webHostEnvironment = webHostEnvironment;
         }
 
@@ -21,121 +24,106 @@ namespace BookingApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-
             return View();
         }
+
         [HttpGet]
         public IActionResult Rooms()
         {
-
-           var Rooms= _roomBookingContext.Rooms.ToList();
-
-
-            return View(Rooms);
+            var rooms = _roomService.GetAllRooms();
+            return View(rooms);
         }
+
         [HttpPost]
         public IActionResult Add(Room room)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Invalid data. Please check the fields.";
+                return View(room);
+            }
 
-
-            _roomBookingContext.Rooms.Add(room);
-            _roomBookingContext.SaveChanges();
-            TempData["Notification"] = "Booked successfully";
+            _roomService.AddRoom(room);
+            TempData["Success"] = "Room added successfully.";
             return RedirectToAction("Rooms");
         }
+
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
+            var room = _roomService.GetRoomById(id);
+            if (room == null)
+                return NotFound();
 
-            var room= _roomBookingContext.Rooms.FirstOrDefault(r => r.Id == id);
-            // Pass the id to the EditBooking action
             return View(room);
         }
 
-   [HttpPost]
-        public IActionResult EditBooking(Room room) {
-            if (room == null) { return NotFound(); }
-            var RoomToEdit = new Room();
-            RoomToEdit.FirstName = room.FirstName;
-            RoomToEdit.LastName = room.LastName;
-           RoomToEdit.RoomType = room.RoomType;
-            RoomToEdit.checkin = room.checkin;
-            RoomToEdit.checkout= room.checkout;
+        [HttpPost]
+        public IActionResult EditBooking(Room room)
+        {
+            if (room == null)
+                return NotFound();
 
-
-            _roomBookingContext.Rooms.Update(room);
-            _roomBookingContext.SaveChanges();
-
-
-
-
-
+            try
+            {
+                _roomService.UpdateRoom(room);
+                TempData["Success"] = "Room updated successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+            }
 
             return RedirectToAction("Rooms");
         }
+
         [HttpGet]
-        public IActionResult Delete(Guid id) {
+        public IActionResult Delete(Guid id)
+        {
+            var room = _roomService.GetRoomById(id);
+            if (room == null)
+                return NotFound();
 
-            var Room = _roomBookingContext.Rooms.FirstOrDefault(x => x.Id == id);
-
-            if(Room == null) { return NotFound(); }
-
-         
-
-            return View(Room);
-        
+            return View(room);
         }
 
         [HttpPost]
         public IActionResult DeleteRoom(Guid id)
         {
-            var room = _roomBookingContext.Rooms.FirstOrDefault(r => r.Id == id);
-
-            if (room == null)
+            try
             {
-                return NotFound(); // Return 404 if the room is not found
+                _roomService.DeleteRoom(id);
+                TempData["Success"] = "Room deleted successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
             }
 
-            _roomBookingContext.Rooms.Remove(room);
-            _roomBookingContext.SaveChanges();
-
-            return RedirectToAction("Rooms"); // Redirect to the Rooms action after deletion
+            return RedirectToAction("Rooms");
         }
+
         [HttpGet]
         public IActionResult UploadFiles()
         {
-
-
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> UploadFiles(IFormFile file)
         {
-
-
-            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-
-            if (!Directory.Exists(uploadsFolder))
+            try
             {
-
-
-                Directory.CreateDirectory(uploadsFolder);
-
+                string fileName = await _roomService.UploadFileAsync(file, _webHostEnvironment);
+                TempData["Success"] = $"{fileName} saved successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
             }
 
-            string fileName = Path.GetFileName(file.FileName);
-            string fileSavePath = Path.Combine(uploadsFolder, fileName);
-
-            using(FileStream stream=new FileStream(fileSavePath, FileMode.Create))
-            {
-
-
-
-                await file.CopyToAsync(stream);
-            }
-            TempData["Message"] = fileName + " saved successfully";
             return View("UploadFiles");
         }
-
     }
+
 }

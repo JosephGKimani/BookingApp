@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 
 using BookingApp.Data;
 using Microsoft.EntityFrameworkCore;
+using BookingApp.Repository.Services;
+using BookingApp.Repository.Implimentation;
 
 namespace BookingApp
 {
@@ -17,6 +19,7 @@ namespace BookingApp
            
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+            builder.Services.AddScoped<IRoomInterface, RoomService>();
 
             builder.Services.AddDbContext<RoomBookingContext>(options =>
        options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));

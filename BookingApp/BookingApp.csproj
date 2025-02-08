@@ -15,7 +15,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repository\Implimentation\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 </Project>
