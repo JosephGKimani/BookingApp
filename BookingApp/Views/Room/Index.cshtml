@@ -3,7 +3,7 @@
 @model BookingApp.Models.Room
 
 
-<form asp-action="Add" class="form">
+<form asp-controller="Room" asp-action="Add" class="form">
     <div class="mb-3">
         <input type="hidden" asp-for="Id" />
     </div>
@@ -19,8 +19,16 @@
 
     <div class="mb-3">
         <label for="RoomType" class="form-label">Room Type *</label>
-        <input type="text" class="form-control" required asp-for="RoomType" />
+        <select id="RoomType" class="form-select" asp-for="RoomType">
+            <option selected disabled>Select an option</option>
+            <option value="@RoomType.Double.ToString()">Double</option>
+            <option value="@RoomType.Single.ToString()">Single</option>
+            <option value="@RoomType.MasterEnsuit.ToString()">MasterEnsuit</option>
+            <option value="@RoomType.Suit.ToString()">Suit</option>
+        </select>
+        <span class="text-danger" asp-validation-for="RoomType"></span>
     </div>
+
 
     <div class="mb-3">
         <label for="checkin" class="form-label">Check in *</label>

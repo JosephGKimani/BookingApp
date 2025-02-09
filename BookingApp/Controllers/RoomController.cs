@@ -20,7 +20,7 @@ namespace BookingApp.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [Authorize]
+      
         [HttpGet]
         public IActionResult Index()
         {
@@ -39,12 +39,12 @@ namespace BookingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Error"] = "Invalid data. Please check the fields.";
-                return View(room);
+                TempData["Notification"] = "Invalid data. Please check the fields.";
+                return RedirectToAction("Rooms");
             }
 
             _roomService.AddRoom(room);
-            TempData["Success"] = "Room added successfully.";
+            TempData["Notification"] = "Room added successfully.";
             return RedirectToAction("Rooms");
         }
 
@@ -57,12 +57,11 @@ namespace BookingApp.Controllers
 
             return View(room);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult EditBooking(Room room)
         {
-            if (room == null)
-                return NotFound();
+           
 
             try
             {
@@ -76,7 +75,7 @@ namespace BookingApp.Controllers
 
             return RedirectToAction("Rooms");
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
